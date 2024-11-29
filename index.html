@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人网站</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <section id="home" class="hero-section">
+        <div class="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-slide active" style="background-image: url('images/IMG_2905.JPG')">
+                    <div class="slide-content">
+                        <h1>欢迎来到我的世界</h1>
+                        <p>Web Developer & Designer</p>
+                    </div>
+                </div>
+                <div class="carousel-slide" style="background-image: url('images/IMG_2959.JPG')">
+                    <div class="slide-content">
+                        <h1>创造独特体验</h1>
+                        <p>Crafting Digital Experiences</p>
+                    </div>
+                </div>
+                <div class="carousel-slide" style="background-image: url('images/IMG_2971.JPG')">
+                    <div class="slide-content">
+                        <h1>探索无限可能</h1>
+                        <p>Exploring Possibilities</p>
+                    </div>
+                </div>
+            </div>
+            <nav class="navbar">
+                <div class="nav-logo">羊羊羊</div>
+                <div class="nav-links">
+                    <a href="#home" class="nav-item active">首页</a>
+                    <a href="#about" class="nav-item">About me</a>
+                    <a href="#projects" class="nav-item">作品展示</a>
+                    <a href="#chat" class="nav-item">与我对话</a>
+                    <a href="#contact" class="nav-item">联系我</a>
+                </div>
+            </nav>
+            <button class="carousel-btn prev">❮</button>
+            <button class="carousel-btn next">❯</button>
+            <div class="carousel-dots"></div>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2 class="section-title">ABOUT ME</h2>
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="images/IMG_2470.JPG" alt="个人照片" class="expandable-image">
+                </div>
+                <div class="about-text">
+                    <h3>你好，我是 <span class="highlight">羊羊羊</span></h3>
+                    <p>作为一名富有创造力的设计师，我专注于创造独特的视觉体验。在平面设计和UI设计领域有着丰富的经验，善于将创意转化为优秀的设计作品。</p>
+                    <div class="skills">
+                        <span class="skill-tag">UI设计</span>
+                        <span class="skill-tag">平面设计</span>
+                        <span class="skill-tag">品牌设计</span>
+                        <span class="skill-tag">Figma</span>
+                        <span class="skill-tag">Photoshop</span>
+                        <span class="skill-tag">Illustrator</span>
+                        <span class="skill-tag">用户体验</span>
+                        <span class="skill-tag">视觉设计</span>
+                    </div>
+                    <div class="about-description">
+                        <p>我的专业领域：</p>
+                        <ul>
+                            <li>UI/UX设计：专注于创造直观且美观的用户界面</li>
+                            <li>品牌设计：帮助企业建立独特的视觉识别系统</li>
+                            <li>平面设计：擅长海报、宣传册等商业设计</li>
+                            <li>移动端设计：深入理解移动端设计规范和用户习惯</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="projects-section">
+        <div class="container">
+            <h2 class="section-title">作品展示</h2>
+            <div class="projects-content">
+                <div class="project-intro">
+                    <h3>设计作品集</h3>
+                    <div class="skills">
+                        <span class="skill-tag">UI设计</span>
+                        <span class="skill-tag">平面设计</span>
+                        <span class="skill-tag">品牌设计</span>
+                        <span class="skill-tag">视觉设计</span>
+                    </div>
+                    <div class="portfolio-preview">
+                        <div class="pdf-preview" id="pdfPreview">
+                            <iframe src="file/杨群 设计作品集.pdf" class="pdf-thumbnail" allowfullscreen></iframe>
+                            <div class="preview-overlay">
+                                <span class="preview-text">点击查看完整作品集</span>
+                            </div>
+                        </div>
+                        <button class="view-portfolio-btn" id="viewPortfolio">
+                            <i class="fas fa-book-open"></i>
+                            查看完整作品集
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="chat" class="chat-section">
+        <div class="container">
+            <h2 class="section-title">与我对话</h2>
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <!-- 默认欢迎消息 -->
+                    <div class="message ai-message">
+                        <div class="message-content">
+                            你好！我是羊羊羊的AI助手，你可以问我关于她的��何问题，比如：
+                            <ul>
+                                <li>她的专业技能是什么？</li>
+                                <li>她的工作经历？</li>
+                                <li>她的设计风格？</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <input type="text" id="chatInput" placeholder="输入你的问题..." class="chat-input">
+                    <button id="sendMessage" class="chat-send-btn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title">联系我</h2>
+            <div class="contact-content">
+                <div class="social-links">
+                    <div class="social-link email" data-tooltip="601878125@qq.com">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <a href="#" class="social-link douyin" title="抖音">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="#" class="social-link weibo" title="微博">
+                        <i class="fab fa-weibo"></i>
+                    </a>
+                    <a href="https://space.bilibili.com/40123165?spm_id_from=333.1007.0.0" class="social-link bilibili"
+                        title="哔哩哔哩" target="_blank">
+                        <i class="fab fa-bilibili"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 羊羊羊. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+
+    <div class="modal" id="imageModal">
+        <span class="modal-close">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <div class="pdf-modal" id="pdfModal">
+        <div class="modal-header">
+            <h3>设计作品集</h3>
+            <button class="modal-close" id="closePdfModal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <iframe id="pdfViewer" src="" frameborder="0"></iframe>
+        </div>
+    </div>
+</body>
+
+</html>

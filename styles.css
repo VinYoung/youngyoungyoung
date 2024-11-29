@@ -1,0 +1,1468 @@
+:root {
+    --primary-color: #2a9d8f;
+    --secondary-color: #e9c46a;
+    --text-color: #2c3e50;
+    --background-color: #f8f9fa;
+    --white: #ffffff;
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    width: 100%;
+}
+
+/* 导航栏样式更新 */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+/* 初始状态（在轮播图区域时） */
+.navbar:not(.scrolled) {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar:not(.scrolled) .nav-logo {
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.navbar:not(.scrolled) .nav-item {
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* 滚动状态 */
+.navbar.scrolled {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 1rem 3rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar.scrolled .nav-logo {
+    color: #333;
+}
+
+.navbar.scrolled .nav-item {
+    color: #333;
+    text-shadow: none;
+}
+
+.nav-logo {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2.5rem;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0.5rem 0;
+    position: relative;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.nav-item::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: currentColor;
+    transition: width 0.3s ease;
+}
+
+.nav-item:hover {
+    opacity: 0.9;
+}
+
+.nav-item:hover::after,
+.nav-item.active::after {
+    width: 100%;
+}
+
+/* 添加滚动时的动画效果 */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.navbar.show {
+    animation: fadeInDown 0.5s ease forwards;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 1rem;
+    }
+
+    .navbar.scrolled {
+        padding: 0.8rem 1rem;
+    }
+
+    .nav-links {
+        gap: 1.5rem;
+    }
+
+    .nav-item {
+        font-size: 0.9rem;
+    }
+}
+
+/* 轮播图部分 */
+.hero-section {
+    height: 100vh;
+    position: relative;
+}
+
+.carousel {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+}
+
+.slide-content {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    border-radius: 15px;
+    max-width: 800px;
+    transition: all 0.3s ease;
+    margin-top: 100px;
+}
+
+.slide-content h1 {
+    color: #fff;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    font-weight: 600;
+}
+
+.slide-content p {
+    color: #f0f0f0;
+    font-size: 1.5rem;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.slide-content:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* 关于我部分 */
+.about-section {
+    padding: 6rem 0;
+    background: var(--background-color);
+    min-height: 100vh;
+}
+
+.about-section .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.about-content {
+    display: flex;
+    width: 100%;
+    gap: 4rem;
+    min-height: 600px;
+    margin-top: 2rem;
+}
+
+.about-image {
+    width: 50%;
+    flex: none;
+    position: relative;
+}
+
+.about-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.about-text {
+    flex: 1;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.about-text h3 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.about-text p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 1.5rem 0;
+}
+
+.skill-tag,
+.skills span,
+.project-tags .tag {
+    padding: 8px 16px;
+    background: white;
+    color: #4285f4;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border: 2px solid #4285f4;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.skill-tag:hover,
+.skills span:hover,
+.project-tags .tag:hover {
+    background: #4285f4;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.about-description {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 2rem;
+}
+
+.about-description ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.about-description li {
+    position: relative;
+    padding-left: 20px;
+    white-space: nowrap;
+}
+
+.about-description li::before {
+    content: "•";
+    color: #4285f4;
+    font-size: 1.5rem;
+    position: absolute;
+    left: 0;
+    top: -4px;
+}
+
+.highlight {
+    color: #4285f4;
+    font-weight: 600;
+}
+
+/* 项目展示部分 */
+.projects-section {
+    padding: 6rem 0;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 0 2rem;
+}
+
+.project-card {
+    background: var(--white);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: var(--transition);
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+}
+
+.project-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.project-info {
+    padding: 1.5rem;
+}
+
+.project-info h3 {
+    margin-bottom: 1rem;
+}
+
+.project-tags {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.tag {
+    padding: 8px 16px;
+    background: white;
+    color: #4285f4;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border: 2px solid #4285f4;
+    cursor: pointer;
+}
+
+.tag:hover {
+    background: #4285f4;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* 联系部分 */
+.contact-section {
+    padding: 6rem 0;
+    background: var(--background-color);
+}
+
+.contact-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.contact-info {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-bottom: 2rem;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 2rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.contact-item i {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.social-link {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.social-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(0);
+    transition: transform 0.3s ease;
+    border-radius: 50%;
+}
+
+.social-link:hover::before {
+    transform: scale(1);
+}
+
+/* 邮箱样式 */
+.social-link.email {
+    background: #4285f4;
+    box-shadow: 0 4px 10px rgba(66, 133, 244, 0.2);
+}
+
+.social-link.email:hover {
+    background: #2b7de9;
+    transform: translateY(-3px);
+}
+
+/* 抖音样式 */
+.social-link.douyin {
+    background: #000000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.social-link.douyin:hover {
+    background: #fe2c55;
+    transform: translateY(-3px);
+}
+
+/* 微博样式 */
+.social-link.weibo {
+    background: #ff8200;
+    box-shadow: 0 4px 10px rgba(255, 130, 0, 0.2);
+}
+
+.social-link.weibo:hover {
+    background: #ff9500;
+    transform: translateY(-3px);
+}
+
+.social-link.weibo i {
+    color: #ffffff;
+}
+
+/* B站样式 */
+.social-link.bilibili {
+    background: #00a1d6;
+    box-shadow: 0 4px 10px rgba(0, 161, 214, 0.2);
+}
+
+.social-link.bilibili:hover {
+    background: #00b5e5;
+    transform: translateY(-3px);
+}
+
+.social-link .icon {
+    font-size: 1.2rem;
+}
+
+.social-name {
+    font-size: 1rem;
+}
+
+/* 页脚 */
+.footer {
+    padding: 2rem 0;
+    background: var(--text-color);
+    color: var(--white);
+    text-align: center;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .about-content {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .about-image {
+        width: 100%;
+    }
+
+    .about-text {
+        padding-right: 0;
+    }
+
+    .about-description ul {
+        flex-direction: column;
+    }
+
+    .about-description li {
+        white-space: normal;
+    }
+
+    .pdf-preview {
+        height: 400px;
+    }
+}
+
+/* 在现有的 styles.css 中添加或更新以下样式 */
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    z-index: 10;
+}
+
+.carousel-btn:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.carousel-btn.prev {
+    left: 20px;
+}
+
+.carousel-btn.next {
+    right: 20px;
+}
+
+.carousel-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    background: white;
+    transform: scale(1.2);
+}
+
+/* 确保轮播图在移动端也能正常显示 */
+@media (max-width: 768px) {
+    .slide-content h1 {
+        font-size: 2rem;
+    }
+
+    .slide-content p {
+        font-size: 1rem;
+    }
+
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+}
+
+/* 更新提示框样式 */
+.social-link[data-tooltip] {
+    position: relative;
+}
+
+.social-link[data-tooltip]::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 150%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 14px;
+    white-space: nowrap;
+    border-radius: 4px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.social-link[data-tooltip]::after {
+    content: '';
+    position: absolute;
+    bottom: 140%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: rgba(0, 0, 0, 0.8);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.social-link[data-tooltip]:hover::before {
+    opacity: 1;
+    visibility: visible;
+    bottom: 160%;
+}
+
+.social-link[data-tooltip]:hover::after {
+    opacity: 1;
+    visibility: visible;
+    bottom: 150%;
+}
+
+/* 复制成功动画 */
+@keyframes copySuccess {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.copy-success {
+    animation: copySuccess 0.3s ease;
+}
+
+/* 添加提示框样式 */
+[data-tooltip] {
+    position: relative;
+}
+
+[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 12px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 4px;
+    font-size: 14px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    pointer-events: none;
+    margin-bottom: 5px;
+}
+
+[data-tooltip]::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: rgba(0, 0, 0, 0.8);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    pointer-events: none;
+    margin-bottom: -6px;
+}
+
+[data-tooltip]:hover::after,
+[data-tooltip]:hover::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 社交链接样式 */
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.social-link {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+/* 邮箱提示框样式 */
+.social-link[data-tooltip] {
+    position: relative;
+}
+
+.social-link[data-tooltip]::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 14px;
+    white-space: nowrap;
+    border-radius: 4px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.social-link[data-tooltip]::after {
+    content: '';
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: rgba(0, 0, 0, 0.8);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    margin-bottom: -12px;
+}
+
+.social-link[data-tooltip]:hover::before,
+.social-link[data-tooltip]:hover::after {
+    opacity: 1;
+    visibility: visible;
+    bottom: 130%;
+}
+
+/* 社交图标样式 */
+.social-link.email {
+    background: #4285f4;
+}
+
+.social-link.douyin {
+    background: #000000;
+}
+
+.social-link.weibo {
+    background: #ff8200;
+}
+
+.social-link.bilibili {
+    background: #00a1d6;
+}
+
+/* 悬停效果 */
+.social-link:hover {
+    transform: translateY(-3px);
+}
+
+.social-link.email:hover {
+    background: #2b7de9;
+}
+
+.social-link.douyin:hover {
+    background: #fe2c55;
+}
+
+.social-link.weibo:hover {
+    background: #ff9500;
+}
+
+.social-link.bilibili:hover {
+    background: #00b5e5;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .about-content {
+        flex-direction: column;
+    }
+
+    .about-text {
+        padding: 20px 0;
+    }
+
+    .skills {
+        justify-content: center;
+    }
+}
+
+/* 添加到现有的 CSS 文件中 */
+html {
+    scroll-behavior: smooth;
+    /* 基础平滑滚动 */
+}
+
+/* 添加过渡效果的类 */
+.section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease-out;
+}
+
+.section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 添加滚动进度指示器样式 */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(to right, #4285f4, #34a853);
+    z-index: 1001;
+    transition: width 0.1s ease;
+}
+
+/* 为不同部分添加不同的动画延迟 */
+#home.section {
+    transition-delay: 0s;
+}
+
+#about.section {
+    transition-delay: 0.1s;
+}
+
+#projects.section {
+    transition-delay: 0.2s;
+}
+
+#contact.section {
+    transition-delay: 0.3s;
+}
+
+/* 添加移动端优化 */
+@media (max-width: 768px) {
+    .section {
+        transform: translateY(10px);
+        /* 减小移动端的动画幅度 */
+    }
+}
+
+/* 添加可放大图片的样式 */
+.zoomable-image {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.zoomable-image:hover {
+    transform: scale(1.02);
+}
+
+/* 模态框样式 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal.show {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+}
+
+.modal-content {
+    max-width: 90%;
+    max-height: 90vh;
+    margin: auto;
+    display: block;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+}
+
+.modal.show .modal-content {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.modal-close:hover {
+    color: #bbb;
+}
+
+/* 添加动画效果 */
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* 更新图片放大效果的样式 */
+.expandable-image {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 添加放大状态的类 */
+.expandable-image.expanded {
+    max-width: 800px;
+    /* 或其他合适的大小 */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    transform: scale(1.2);
+    z-index: 100;
+}
+
+/* 作品展示部分样式 */
+.projects-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.project-intro {
+    text-align: center;
+}
+
+.project-intro h3 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.view-portfolio-btn {
+    margin-top: 2rem;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    color: white;
+    background: #4285f4;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.view-portfolio-btn:hover {
+    background: #2b7de9;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(66, 133, 244, 0.3);
+}
+
+.view-portfolio-btn i {
+    font-size: 1.2rem;
+}
+
+/* PDF模态框样式 */
+.pdf-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.pdf-modal.show {
+    display: block;
+    opacity: 1;
+}
+
+.modal-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem 2rem;
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1001;
+}
+
+.modal-header h3 {
+    color: #333;
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #666;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.modal-close:hover {
+    color: #333;
+}
+
+.modal-body {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1rem;
+}
+
+#pdfViewer {
+    width: 100%;
+    height: 100%;
+    background: white;
+}
+
+/* 使用与关于我部分相同的技能标签样式 */
+.skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 1.5rem 0;
+    justify-content: center;
+}
+
+.skill-tag {
+    padding: 8px 16px;
+    background: #f8f9fa;
+    color: #333;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border: 1px solid #eee;
+}
+
+.skill-tag:hover {
+    background: #4285f4;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* 更新作品预览样式 */
+.portfolio-preview {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.pdf-preview {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 500px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background: #f8f9fa;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.pdf-thumbnail {
+    width: 100%;
+    height: 100%;
+    border: none;
+    pointer-events: none;
+    /* 防止 iframe 接收点击事件 */
+}
+
+.preview-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+    /* 确保遮罩层在 iframe 上面 */
+    pointer-events: auto;
+    /* 确保遮罩层可以接收点击事件 */
+}
+
+.preview-text {
+    color: white;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.pdf-preview:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+}
+
+.pdf-preview:hover .preview-overlay {
+    opacity: 1;
+}
+
+.pdf-preview:hover .preview-text {
+    transform: translateY(0);
+}
+
+/* 更新按钮样式 */
+.view-portfolio-btn {
+    margin-top: 1rem;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    color: white;
+    background: linear-gradient(135deg, #4285f4, #34a853);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(66, 133, 244, 0.2);
+}
+
+.view-portfolio-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(66, 133, 244, 0.3);
+    background: linear-gradient(135deg, #3367d6, #2d9348);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .pdf-preview {
+        max-width: 100%;
+        height: 300px;
+    }
+}
+
+/* 聊天部分样式 */
+.chat-section {
+    padding: 4rem 0;
+    background: #f8f9fa;
+}
+
+.chat-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.chat-messages {
+    height: 400px;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.message {
+    max-width: 80%;
+    padding: 12px 16px;
+    border-radius: 15px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.user-message {
+    align-self: flex-end;
+    background: #4285f4;
+    color: white;
+    border-bottom-right-radius: 5px;
+}
+
+.ai-message {
+    align-self: flex-start;
+    background: #f1f3f4;
+    color: #333;
+    border-bottom-left-radius: 5px;
+}
+
+.ai-message ul {
+    margin-top: 8px;
+    padding-left: 20px;
+}
+
+.ai-message li {
+    margin: 5px 0;
+}
+
+.chat-input-container {
+    display: flex;
+    padding: 15px;
+    gap: 10px;
+    border-top: 1px solid #eee;
+}
+
+.chat-input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease;
+}
+
+.chat-input:focus {
+    outline: none;
+    border-color: #4285f4;
+}
+
+.chat-send-btn {
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 50%;
+    background: #4285f4;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chat-send-btn:hover {
+    background: #3367d6;
+    transform: translateY(-2px);
+}
+
+.chat-send-btn i {
+    font-size: 1.2rem;
+}
+
+/* 添加滚动条样式 */
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+/* 统一所有部分的标题样式 */
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    font-family: 'Montserrat', sans-serif;
+    color: #333;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: #4285f4;
+    border-radius: 2px;
+}
+
+/* 更新 About me 部分的布局 */
+.about-section {
+    padding: 6rem 0;
+    background: var(--background-color);
+    min-height: 100vh;
+}
+
+.about-section .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.about-content {
+    display: flex;
+    width: 100%;
+    gap: 4rem;
+    min-height: 600px;
+    margin-top: 2rem;
+}
+
+/* 统一所有技能标签的样式 */
+.skill-tag,
+.skills span,
+.project-tags .tag {
+    padding: 8px 16px;
+    background: white;
+    color: #4285f4;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border: 2px solid #4285f4;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.skill-tag:hover,
+.skills span:hover,
+.project-tags .tag:hover {
+    background: #4285f4;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* 技能标签容器样式 */
+.skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 1.5rem 0;
+}
+
+/* 响应式调整 */
+@media (max-width: 992px) {
+    .about-content {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .about-image {
+        width: 100%;
+        height: 400px;
+        position: relative;
+    }
+}
