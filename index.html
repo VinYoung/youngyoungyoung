@@ -13,6 +13,8 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf_viewer.min.css">
 </head>
 
 <body>
@@ -128,7 +130,7 @@
                     </div>
                     <div class="portfolio-preview">
                         <div class="pdf-preview" id="pdfPreview">
-                            <iframe src="file/杨群 设计作品集.pdf" class="pdf-thumbnail" allowfullscreen></iframe>
+                            <canvas id="pdfCanvas"></canvas>
                             <div class="preview-overlay">
                                 <span class="preview-text">点击查看完整作品集</span>
                             </div>
@@ -215,7 +217,7 @@
             <button class="modal-close" id="closePdfModal">&times;</button>
         </div>
         <div class="modal-body">
-            <iframe id="pdfViewer" src="" frameborder="0"></iframe>
+            <div id="pdfViewer" class="pdfViewer"></div>
         </div>
     </div>
 </body>

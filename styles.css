@@ -5,6 +5,7 @@
     --background-color: #f8f9fa;
     --white: #ffffff;
     --transition: all 0.3s ease;
+    --pdf-scale: 1.2;
 }
 
 * {
@@ -1097,60 +1098,127 @@ html {
     height: 100%;
     background: rgba(0, 0, 0, 0.9);
     z-index: 1000;
-    opacity: 0;
-    transition: opacity 0.3s ease;
 }
 
 .pdf-modal.show {
-    display: block;
-    opacity: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .modal-header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    padding: 1rem 2rem;
-    background: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 1001;
-}
-
-.modal-header h3 {
-    color: #333;
-    margin: 0;
+    padding: 1rem 2rem;
+    background: white;
 }
 
 .modal-close {
     background: none;
     border: none;
     font-size: 2rem;
-    color: #666;
     cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-.modal-close:hover {
-    color: #333;
+    color: #666;
 }
 
 .modal-body {
-    position: absolute;
-    top: 60px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 1rem;
+    flex: 1;
+    padding: 2rem;
+    background: #f5f5f5;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
 }
 
-#pdfViewer {
-    width: 100%;
-    height: 100%;
+.pdfViewer {
+    width: 90%;
+    max-width: 1000px;
     background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
+
+.pdf-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.pdf-page {
+    width: 100%;
+    height: auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.pdf-pages-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* 控制按钮样式 */
+.pdf-controls {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    padding: 12px 24px;
+    border-radius: 30px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    z-index: 1002;
+}
+
+.page-navigation {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+}
+
+.page-input {
+    width: 50px;
+    padding: 4px 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    text-align: center;
+    font-size: 14px;
+}
+
+.page-input:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.pdf-controls button {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.pdf-controls button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* 调整缩放比例 */
+:root {
+    --pdf-scale: 1.2;
+    /* 可以通过调整这个值来改变 PDF 的整体大小 */
+}
+
+/* 在 JavaScript 中使用这个比例 */
+let scale=1.2; // 对应 CSS 中的 --pdf-scale
 
 /* 使用与关于我部分相同的技能标签样式 */
 .skills {
@@ -1187,16 +1255,37 @@ html {
 }
 
 .pdf-preview {
-    position: relative;
     width: 100%;
     max-width: 800px;
-    height: 500px;
+    margin: 0 auto;
+    position: relative;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    background: #f8f9fa;
-    transition: all 0.3s ease;
-    cursor: pointer;
+}
+
+#pdfCanvas {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.preview-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.pdf-preview:hover .preview-overlay {
+    opacity: 1;
 }
 
 .pdf-thumbnail {
@@ -1783,7 +1872,7 @@ html {
     }
 
     .slide-content {
-        /* 在移动端��中显示 */
+        /* 在移动端中显示 */
         position: relative;
         top: auto;
         left: auto;
@@ -1794,4 +1883,142 @@ html {
         margin: 0 auto;
         width: 90%;
     }
+}
+
+/* 添加 PDF 控制按钮样式 */
+.pdf-controls {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px 20px;
+    border-radius: 20px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    z-index: 1002;
+}
+
+.pdf-controls button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 5px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.pdf-controls button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.pdf-controls span {
+    color: white;
+}
+
+/* 添加新的样式 */
+.mode-toggle {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    z-index: 1001;
+    transition: background-color 0.3s;
+}
+
+.mode-toggle:hover {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.pdf-page {
+    display: block;
+    margin: 20px auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.loading-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #666;
+    font-size: 1.2rem;
+}
+
+/* 更新 PDF 查看器样式 */
+.modal-body {
+    flex: 1;
+    padding: 1rem;
+    background: white;
+    overflow-y: auto;
+}
+
+.pdfViewer {
+    position: relative;
+    min-height: 100%;
+    padding: 20px;
+}
+
+/* 分页模式下隐藏控制按钮 */
+.pdf-controls {
+    display: none;
+}
+
+.pagination-mode .pdf-controls {
+    display: flex;
+}
+
+/* 添加新的样式 */
+.pdf-pages-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.pdf-page {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    height: auto;
+}
+
+/* 更新控制按钮样式 */
+.pdf-controls {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px 20px;
+    border-radius: 20px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    z-index: 1002;
+}
+
+.pdf-controls button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 5px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.pdf-controls button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.pdf-controls span {
+    color: white;
 }
