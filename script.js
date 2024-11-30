@@ -118,20 +118,17 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // ===== AI 聊天功能 =====
+    // ===== Kimi AI 聊天功能 =====
     const chatInput = document.getElementById('chatInput');
     const sendButton = document.getElementById('sendMessage');
     const chatMessages = document.getElementById('chatMessages');
 
-    // AI回复模板
-    const aiResponses = {
-        '技能': '我擅长UI设计、平面设计和品牌设计。在UI设计方面，我特别注重用户体验和界面美观性；在平面设计领域，我可以处理各类印刷品和数字媒体的设计需求；在品牌设计方面，我能够帮助企业建立统一的视觉识别系统。',
-        '经历': '我有多年的设计经验，曾参与过多个成功的商业项目。我的作品集中展示了一些代表性的项目案例，你可以通过查看作品集了解更多详情。',
-        '风格': '我的设计风格注重简约现代，同时保持独特的创意表现。我善于运用色彩和排版来传达设计理念，始终追求设计的实用性和美观性的平衡。',
-        '你好': '你好！我是羊羊羊的AI助手，很高兴为你介绍她的相关信息。你可以问我关于她的专业技能、工作经历或设计风格等问题。',
-        '联系': '你可以通过页面上显示的社交媒体链接与羊羊羊取得联系。',
-    };
+    // Kimi API 配置
+    const KIMI_API_URL = 'https://api.moonshot.cn/v1/chat/completions';
+    // API 密钥通过环境变量或配置文件管理会更安全
+    const KIMI_API_KEY = 'sk-KgEigGxxVREz6ZHpScEaGDWMQmS6sYK5pLhtPh3GGxqmfF7r';
 
+    // 添加消息到聊天框
     function addMessage(content, isUser = false) {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${isUser ? 'user-message' : 'ai-message'}`;
@@ -140,31 +137,74 @@ document.addEventListener('DOMContentLoaded', function () {
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    function getAIResponse(message) {
-        message = message.toLowerCase();
-        let response = '抱歉，我可能没有理解你的问题。你可以试着问我关于专业技能、工作经历或设计风格方面的问题。';
+    // 调用 Kimi API
+    async function callKimiAPI(message) {
+        try {
+            const response = await fetch(KIMI_API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${KIMI_API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: "moonshot-v1-8k",
+                    messages: [
+                        {
+                            "role": "system",
+                            "content": "你是一个AI助手，负责回答关于羊羊羊的问题。她是一名设计师，精通UI设计和平面设计。请用简洁专业的语气回答问题，突出她的专业能力和项目经验。"
+                        },
+                        {
+                            "role": "user",
+                            "content": message
+                        }
+                    ],
+                    temperature: 0.7,
+                    stream: false
+                })
+            });
 
-        for (let key in aiResponses) {
-            if (message.includes(key)) {
-                response = aiResponses[key];
-                break;
+            if (!response.ok) {
+                throw new Error(`API request failed: ${response.status}`);
             }
+
+            const data = await response.json();
+            return data.choices[0].message.content;
+        } catch (error) {
+            console.error('Error:', error);
+            return '抱歉，我现在无法回答你的问题。请稍后再试。';
         }
-        return response;
     }
 
-    function handleSendMessage() {
+    // 处理发送消息
+    async function handleSendMessage() {
         const message = chatInput.value.trim();
-        if (message) {
-            // 添加用户消息
-            addMessage(message, true);
-            chatInput.value = '';
+        if (!message) return;
 
-            // 添加AI回复
-            setTimeout(() => {
-                const aiResponse = getAIResponse(message);
-                addMessage(aiResponse);
-            }, 500);
+        // 添加用户消息
+        addMessage(message, true);
+        chatInput.value = '';
+
+        // 显示正在输入状态
+        const loadingDiv = document.createElement('div');
+        loadingDiv.className = 'message ai-message';
+        loadingDiv.innerHTML = '<div class="message-content">正在思考...</div>';
+        chatMessages.appendChild(loadingDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        try {
+            // 获取 AI 回复
+            const aiResponse = await callKimiAPI(message);
+
+            // 移除加载消息
+            loadingDiv.remove();
+
+            // 添加 AI 回复
+            addMessage(aiResponse);
+        } catch (error) {
+            // 错误处理
+            loadingDiv.remove();
+            addMessage('抱歉，发生了一些错误，请稍后再试。');
+            console.error('Chat error:', error);
         }
     }
 
