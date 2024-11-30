@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>个人网站</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>羊羊羊的个人网站</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -36,10 +42,9 @@
                 <div class="nav-logo">羊羊羊</div>
                 <div class="nav-links">
                     <a href="#home" class="nav-item active">首页</a>
-                    <a href="#about" class="nav-item">About me</a>
+                    <a href="#about" class="nav-item">关于我</a>
                     <a href="#projects" class="nav-item">作品展示</a>
                     <a href="#chat" class="nav-item">与我对话</a>
-                    <a href="#contact" class="nav-item">联系我</a>
                 </div>
             </nav>
             <button class="carousel-btn prev">❮</button>
@@ -50,7 +55,10 @@
 
     <section id="about" class="about-section">
         <div class="container">
-            <h2 class="section-title">ABOUT ME</h2>
+            <h2 class="section-title">
+                <span class="title-cn">关于我</span>
+                <span class="title-en">ABOUT ME</span>
+            </h2>
             <div class="about-content">
                 <div class="about-image">
                     <img src="images/IMG_2470.JPG" alt="个人照片" class="expandable-image">
@@ -71,9 +79,9 @@
                     <div class="about-description">
                         <p>我的专业领域：</p>
                         <ul>
-                            <li>UI/UX设计：专注于创造直观且美观的用户界面</li>
+                            <li>UI/UX设计：专注于创直观且美观的用户界面</li>
                             <li>品牌设计：帮助企业建立独特的视觉识别系统</li>
-                            <li>平面设计：擅长海报、宣传册等商业设计</li>
+                            <li>平面设计：擅长海报、册等商业设计</li>
                             <li>移动端设计：深入理解移动端设计规范和用户习惯</li>
                         </ul>
                     </div>
@@ -84,7 +92,10 @@
 
     <section id="projects" class="projects-section">
         <div class="container">
-            <h2 class="section-title">作品展示</h2>
+            <h2 class="section-title">
+                <span class="title-cn">作品展示</span>
+                <span class="title-en">PORTFOLIO</span>
+            </h2>
             <div class="projects-content">
                 <div class="project-intro">
                     <h3>设计作品集</h3>
@@ -113,7 +124,10 @@
 
     <section id="chat" class="chat-section">
         <div class="container">
-            <h2 class="section-title">与我对话</h2>
+            <h2 class="section-title">
+                <span class="title-cn">与我对话</span>
+                <span class="title-en">CHAT WITH ME</span>
+            </h2>
             <div class="chat-container">
                 <div class="chat-messages" id="chatMessages">
                     <!-- 更新默认欢迎消息 -->
@@ -133,31 +147,8 @@
                 <div class="chat-input-container">
                     <input type="text" id="chatInput" placeholder="输入你的问题..." class="chat-input">
                     <button id="sendMessage" class="chat-send-btn">
-                        <i class="fas fa-paper-plane"></i>
+                        <img src="icon/发消息.svg" alt="发送" class="send-icon">
                     </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="contact-section">
-        <div class="container">
-            <h2 class="section-title">联系我</h2>
-            <div class="contact-content">
-                <div class="social-links">
-                    <div class="social-link email" data-tooltip="601878125@qq.com">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <a href="#" class="social-link douyin" title="抖音">
-                        <i class="fab fa-tiktok"></i>
-                    </a>
-                    <a href="#" class="social-link weibo" title="微博">
-                        <i class="fab fa-weibo"></i>
-                    </a>
-                    <a href="https://space.bilibili.com/40123165?spm_id_from=333.1007.0.0" class="social-link bilibili"
-                        title="哔哩哔哩" target="_blank">
-                        <i class="fab fa-bilibili"></i>
-                    </a>
                 </div>
             </div>
         </div>
@@ -165,7 +156,28 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2024 羊羊羊. All rights reserved.</p>
+            <div class="footer-content">
+                <div class="contact-info">
+                    <div class="email-info">
+                        <i class="far fa-envelope"></i>
+                        <span>601878125@qq.com</span>
+                    </div>
+                    <div class="social-links">
+                        <a href="https://space.bilibili.com/40123165/" class="social-link" target="_blank">
+                            <img src="icon/icon_bilibili-circle.svg" alt="bilibili">
+                        </a>
+                        <a href="#" class="social-link">
+                            <img src="icon/抖音.svg" alt="抖音">
+                        </a>
+                        <a href="#" class="social-link">
+                            <img src="icon/微博.svg" alt="微博">
+                        </a>
+                    </div>
+                </div>
+                <div class="copyright">
+                    <p>&copy; 2024 羊羊羊. All rights reserved.</p>
+                </div>
+            </div>
         </div>
     </footer>
 

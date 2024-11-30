@@ -125,7 +125,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Kimi API 配置
     const KIMI_API_URL = 'https://api.moonshot.cn/v1/chat/completions';
-    // API 密钥通过环境变量或配置文件管理会更安全
     const KIMI_API_KEY = 'sk-KgEigGxxVREz6ZHpScEaGDWMQmS6sYK5pLhtPh3GGxqmfF7r';
 
     // 添加消息到聊天框
@@ -135,10 +134,47 @@ document.addEventListener('DOMContentLoaded', function () {
         messageDiv.innerHTML = `<div class="message-content">${content}</div>`;
         chatMessages.appendChild(messageDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
+        return messageDiv;
+    }
+
+    // 流式处理响应
+    async function handleStream(response, messageDiv) {
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+        let messageContent = '';
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('\n');
+            buffer = lines.pop() || '';
+
+            for (const line of lines) {
+                if (line.trim() === '') continue;
+                if (line.startsWith('data: ')) {
+                    const data = line.slice(6);
+                    if (data === '[DONE]') continue;
+                    try {
+                        const parsed = JSON.parse(data);
+                        const content = parsed.choices[0].delta.content;
+                        if (content) {
+                            messageContent += content;
+                            messageDiv.querySelector('.message-content').innerHTML = messageContent;
+                            chatMessages.scrollTop = chatMessages.scrollHeight;
+                        }
+                    } catch (e) {
+                        console.error('Error parsing SSE:', e);
+                    }
+                }
+            }
+        }
     }
 
     // 调用 Kimi API
-    async function callKimiAPI(message) {
+    async function callKimiAPI(message, messageDiv) {
         try {
             const response = await fetch(KIMI_API_URL, {
                 method: 'POST',
@@ -159,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                     ],
                     temperature: 0.7,
-                    stream: false
+                    stream: true  // 启用流式响应
                 })
             });
 
@@ -167,11 +203,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 throw new Error(`API request failed: ${response.status}`);
             }
 
-            const data = await response.json();
-            return data.choices[0].message.content;
+            await handleStream(response, messageDiv);
         } catch (error) {
             console.error('Error:', error);
-            return '抱歉，我现在无法回答你的问题。请稍后再试。';
+            messageDiv.querySelector('.message-content').innerHTML =
+                '抱歉，我现在无法回答你的问题。请稍后再试。';
         }
     }
 
@@ -184,26 +220,18 @@ document.addEventListener('DOMContentLoaded', function () {
         addMessage(message, true);
         chatInput.value = '';
 
-        // 显示正在输入状态
-        const loadingDiv = document.createElement('div');
-        loadingDiv.className = 'message ai-message';
-        loadingDiv.innerHTML = '<div class="message-content">正在思考...</div>';
-        chatMessages.appendChild(loadingDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+        // 创建 AI 回复消息框
+        const aiMessageDiv = addMessage('', false);
+        aiMessageDiv.querySelector('.message-content').innerHTML =
+            '<div class="typing-indicator"><span></span><span></span><span></span></div>';
 
         try {
             // 获取 AI 回复
-            const aiResponse = await callKimiAPI(message);
-
-            // 移除加载消息
-            loadingDiv.remove();
-
-            // 添加 AI 回复
-            addMessage(aiResponse);
+            await callKimiAPI(message, aiMessageDiv);
         } catch (error) {
             // 错误处理
-            loadingDiv.remove();
-            addMessage('抱歉，发生了一些错误，请稍后再试。');
+            aiMessageDiv.querySelector('.message-content').innerHTML =
+                '抱歉，发生了一些错误，请稍后再试。';
             console.error('Chat error:', error);
         }
     }
