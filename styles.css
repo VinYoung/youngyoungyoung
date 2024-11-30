@@ -184,8 +184,6 @@ body {
     height: 100%;
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
-    background-size: cover;
-    background-position: center;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -195,15 +193,64 @@ body {
     opacity: 1;
 }
 
+.slide-mobile,
+.slide-desktop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* 默认隐藏桌面版图片 */
+.slide-desktop {
+    display: none;
+}
+
+/* 在桌面端显示横屏图片 */
+@media (min-width: 768px) {
+    .slide-mobile {
+        display: none;
+    }
+
+    .slide-desktop {
+        display: block;
+    }
+}
+
 .slide-content {
+    position: absolute;
+    z-index: 2;
     text-align: center;
+    color: white;
     padding: 2rem;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(5px);
     border-radius: 15px;
     max-width: 800px;
-    transition: all 0.3s ease;
-    margin-top: 100px;
+    transition: all 0.5s ease;
+}
+
+.slide-content.top-left {
+    top: 20%;
+    left: 10%;
+    text-align: left;
+}
+
+.slide-content.bottom-left {
+    bottom: 20%;
+    left: 10%;
+    text-align: left;
+}
+
+.slide-content.right-center {
+    top: 50%;
+    right: 10%;
+    transform: translateY(-50%);
+    text-align: right;
 }
 
 .slide-content h1 {
@@ -257,9 +304,38 @@ body {
     object-fit: cover;
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    position: absolute;
-    top: 0;
-    left: 0;
+}
+
+/* 默认隐藏桌面版图片 */
+.desktop-image {
+    display: none;
+}
+
+/* 在桌面端显示竖屏图片 */
+@media (min-width: 768px) {
+    .mobile-image {
+        display: none;
+    }
+
+    .desktop-image {
+        display: block;
+    }
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .about-content {
+        flex-direction: column;
+    }
+
+    .about-image {
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+
+    .mobile-image {
+        display: block;
+    }
 }
 
 .about-text {
@@ -1540,7 +1616,7 @@ html {
     }
 }
 
-/* 更新图标样式 */
+/* 新图标样式 */
 .email-info i,
 .social-link i {
     font-size: 1.2rem;
@@ -1587,4 +1663,128 @@ html {
 
 .social-link:hover i {
     transform: scale(1.1);
+}
+
+/* 更新轮播图样式 */
+.carousel {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+}
+
+.slide-mobile,
+.slide-desktop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* 默认隐藏桌面版图片 */
+.slide-desktop {
+    display: none;
+}
+
+/* 在桌面端显示横屏图片 */
+@media (min-width: 768px) {
+    .slide-mobile {
+        display: none;
+    }
+
+    .slide-desktop {
+        display: block;
+    }
+}
+
+/* 保持其他样式不变 */
+.slide-content {
+    position: absolute;
+    z-index: 2;
+    text-align: center;
+    color: white;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    border-radius: 15px;
+    max-width: 800px;
+    transition: all 0.5s ease;
+}
+
+.slide-content.top-left {
+    top: 20%;
+    left: 10%;
+    text-align: left;
+}
+
+.slide-content.bottom-left {
+    bottom: 20%;
+    left: 10%;
+    text-align: left;
+}
+
+.slide-content.right-center {
+    top: 50%;
+    right: 10%;
+    transform: translateY(-50%);
+    text-align: right;
+}
+
+.slide-content h1 {
+    color: #fff;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    font-weight: 600;
+}
+
+.slide-content p {
+    color: #f0f0f0;
+    font-size: 1.5rem;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.slide-content:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .carousel-slide {
+        background-size: cover;
+    }
+
+    .slide-content {
+        /* 在移动端居中显示 */
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        transform: none;
+        text-align: center;
+        margin: 0 auto;
+        width: 90%;
+    }
 }
