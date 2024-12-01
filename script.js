@@ -120,6 +120,18 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    function handlePrevPage() {
+        if (pageNum <= 1) return;
+        pageNum--;
+        queueRenderPage(pageNum);
+    }
+
+    function handleNextPage() {
+        if (pageNum >= pdfDoc.numPages) return;
+        pageNum++;
+        queueRenderPage(pageNum);
+    }
+
     function renderPage(num) {
         pageRendering = true;
         pdfDoc.getPage(num).then(function (page) {
@@ -149,8 +161,10 @@ document.addEventListener('DOMContentLoaded', function () {
             container.className = 'pdf-container';
             container.appendChild(canvas);
 
-            pdfViewer.innerHTML = '';
-            pdfViewer.appendChild(container);
+            if (pdfViewer) {
+                pdfViewer.innerHTML = '';
+                pdfViewer.appendChild(container);
+            }
 
             if (isPaginationMode) {
                 const controls = document.createElement('div');
@@ -168,19 +182,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 const nextButton = controls.querySelector('.next-button');
                 const pageInput = controls.querySelector('.page-input');
 
-                prevButton.addEventListener('click', () => {
-                    if (pageNum <= 1) return;
-                    pageNum--;
-                    queueRenderPage(pageNum);
-                    pageInput.value = pageNum;
-                });
-
-                nextButton.addEventListener('click', () => {
-                    if (pageNum >= pdfDoc.numPages) return;
-                    pageNum++;
-                    queueRenderPage(pageNum);
-                    pageInput.value = pageNum;
-                });
+                prevButton.addEventListener('click', handlePrevPage);
+                nextButton.addEventListener('click', handleNextPage);
 
                 pageInput.addEventListener('change', () => {
                     const newPage = parseInt(pageInput.value);
@@ -194,6 +197,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 pdfViewer.appendChild(controls);
             }
+        }).catch(function (error) {
+            console.error('Error rendering page:', error);
         });
     }
 
@@ -301,20 +306,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // 添加翻页按钮（隐藏但可点击）
-    const prevButton = document.createElement('button');
-    prevButton.id = 'prevPage';
-    prevButton.style.display = 'none';
-    document.body.appendChild(prevButton);
-    prevButton.addEventListener('click', onPrevPage);
-
-    const nextButton = document.createElement('button');
-    nextButton.id = 'nextPage';
-    nextButton.style.display = 'none';
-    document.body.appendChild(nextButton);
-    nextButton.addEventListener('click', onNextPage);
-
-    // ESC 键关闭模态框
+    // 确保事件监听器使用正确的函数
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && pdfModal && pdfModal.classList.contains('show')) {
             closePdfViewer();
@@ -410,7 +402,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch (error) {
             console.error('Error:', error);
             messageDiv.querySelector('.message-content').innerHTML =
-                '抱歉，我现在无法回答你的问题。请稍后再试。';
+                '抱歉我现在无法回答你的问题。请稍后再试。';
         }
     }
 
